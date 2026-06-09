@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Brainstorm / visual companion scratch
+.superpowers/
+
+# Env & local
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/
