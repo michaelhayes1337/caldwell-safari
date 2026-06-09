@@ -36,7 +36,10 @@
 
 @keyframes rise { to { opacity: 1; transform: none; } }
 @keyframes kenburns { from { transform: scale(1.08); } to { transform: scale(1); } }
-@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(7px); }
+}
 
 /* View Transitions: gentle cross-fade */
 @media (prefers-reduced-motion: no-preference) {

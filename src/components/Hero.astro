@@ -61,13 +61,23 @@ const { image, alt, kicker, heading, sub, primary, secondary, compact = false } 
   .hero--compact { min-height: clamp(420px, 62svh, 600px); }
 
   .hero__media { position: absolute; inset: 0; z-index: -2; }
-  .hero__media img { width: 100%; height: 100%; object-fit: cover; }
+  /* Mobile: bias the crop upward so the subject's face/eyes stay in view. */
+  .hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 
+  /* Mobile: mostly a vertical scrim (text sits full-width at the bottom),
+     leaving the middle clear so the image reads. */
   .hero__scrim {
     position: absolute; inset: 0; z-index: -1;
-    background:
-      linear-gradient(180deg, rgba(20,16,10,0.52) 0%, rgba(20,16,10,0.10) 24%, rgba(20,16,10,0.60) 80%, rgba(20,16,10,0.88) 100%),
-      linear-gradient(90deg, rgba(20,16,10,0.58) 0%, rgba(20,16,10,0.12) 52%, transparent 80%);
+    background: linear-gradient(180deg,
+      rgba(20,16,10,0.48) 0%, rgba(20,16,10,0.06) 32%, rgba(20,16,10,0.36) 60%, rgba(20,16,10,0.86) 100%);
+  }
+  @media (min-width: 900px) {
+    .hero__media img { object-position: center; }
+    .hero__scrim {
+      background:
+        linear-gradient(180deg, rgba(20,16,10,0.5) 0%, rgba(20,16,10,0.06) 26%, rgba(20,16,10,0.55) 80%, rgba(20,16,10,0.88) 100%),
+        linear-gradient(90deg, rgba(20,16,10,0.58) 0%, rgba(20,16,10,0.12) 52%, transparent 80%);
+    }
   }
 
   .hero__inner { width: 100%; padding-block: var(--space-2xl) var(--space-xl); }
@@ -93,6 +103,9 @@ const { image, alt, kicker, heading, sub, primary, secondary, compact = false } 
     font-family: var(--font-body); font-weight: 700; font-size: 0.62rem;
     letter-spacing: var(--tracking-wider); text-transform: uppercase;
     color: color-mix(in srgb, var(--cream) 80%, transparent);
+    transition: opacity var(--dur) var(--ease), visibility var(--dur) var(--ease);
   }
+  /* Fade the cue out as soon as the user starts scrolling. */
+  :global(html.scrolled) .scroll-cue { opacity: 0; visibility: hidden; }
   .scroll-cue::after { content: ""; display: block; width: 1px; height: 26px; margin: 0.5rem auto 0; background: currentColor; opacity: 0.7; }
 </style>

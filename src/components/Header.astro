@@ -43,7 +43,7 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
           <li><a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a></li>
         ))}
       </ul>
-      <a href="/contact" class="btn nav-mobile__cta">Plan Your Safari</a>
+      <a href="/contact" class="btn btn--green nav-mobile__cta">Plan Your Safari</a>
     </nav>
   </div>
 </header>
@@ -108,11 +108,11 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
   .nav-mobile[hidden] { display: none; }
   .nav-mobile nav { padding: var(--space-sm) var(--gutter) var(--space-md); }
   .nav-mobile ul { list-style: none; padding: 0; display: grid; gap: 0.25rem; }
-  .nav-mobile a {
+  .nav-mobile ul a {
     display: block; font-family: var(--font-display); font-size: 1.4rem; color: var(--ink);
     padding: 0.6rem 0; border-bottom: 1px solid var(--line);
   }
-  .nav-mobile a[aria-current="page"] { color: var(--bark); }
+  .nav-mobile ul a[aria-current="page"] { color: var(--bark); }
   .nav-mobile__cta { margin-top: var(--space-sm); width: 100%; justify-content: center; }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -133,8 +133,12 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
     const drawer = document.querySelector<HTMLElement>("[data-nav-drawer]");
     if (!header) return;
 
-    // Scroll state (only relevant for over-hero variant, harmless otherwise)
-    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 24);
+    // Scroll state (header solidifies; documentElement.scrolled hides the hero scroll cue)
+    const onScroll = () => {
+      const scrolled = window.scrollY > 24;
+      header.classList.toggle("is-scrolled", scrolled);
+      document.documentElement.classList.toggle("scrolled", scrolled);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
 
