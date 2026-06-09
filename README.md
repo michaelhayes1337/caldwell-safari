@@ -2,7 +2,8 @@
 
 A fast, static, premium website for **Caldwell Safaris** — a family-run, free-range
 hunting outfitter in South Africa. Built with [Astro](https://astro.build/), designed in a
-warm "Bushveld Warmth" theme, and ready to deploy on GitHub + Cloudflare Pages.
+warm "Bushveld Warmth" theme, and deployed on **GitHub Pages** (global CDN via Fastly) at
+`caldwellsafaris.kurocode.com`.
 
 ## Tech
 
@@ -34,7 +35,8 @@ src/
   scripts/      reveal.ts, currency.ts (gallery + nav scripts live in their components)
   styles/       tokens.css (design tokens), global.css, motion.css
   assets/images/  optimised source photography
-public/         favicon.svg, og-image.jpg, robots.txt, _headers, CNAME
+public/         favicon.svg, og-image.jpg, robots.txt, CNAME
+.github/workflows/deploy.yml   build + deploy to GitHub Pages on push to main
 scripts/        fetch-images.mjs  (one-off: re-download source images from the old site)
 ```
 

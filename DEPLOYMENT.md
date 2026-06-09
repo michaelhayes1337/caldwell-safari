@@ -1,95 +1,114 @@
-# Deployment — GitHub + Cloudflare Pages
+# Deployment — GitHub Pages + Route 53
 
-The site builds to a static `dist/` folder, so it can be hosted free on Cloudflare Pages with
-a global edge CDN (fast worldwide), automatic HTTPS, HTTP/3 and Brotli, and automatic
-rebuilds on every push.
+The site is a static Astro build hosted on **GitHub Pages**, served on a custom subdomain
+**`caldwellsafaris.kurocode.com`**. GitHub Pages delivers through a **global CDN (Fastly)**
+with free, automatic HTTPS, so international visitors are served from the edge — no separate
+CDN is required.
 
-## 1. Push to GitHub
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) builds and deploys automatically on
+every push to `main`.
 
-```bash
-# from the project root (already a git repo)
-git remote add origin https://github.com/<your-account>/caldwell-safari.git
-git branch -M main
-git push -u origin main
-```
+---
 
-## 2. Create the Cloudflare Pages project
+## Part 1 — GitHub repository & Pages
 
-1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Select the `caldwell-safari` repository.
-3. Build settings:
-   - **Framework preset:** Astro
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Node version:** set env var `NODE_VERSION = 20` (or newer) if needed.
-4. Deploy. Every push to `main` rebuilds; pull requests get preview URLs.
+1. **Create a new repository** on GitHub, e.g. `caldwell-safari`.
+   - A **public** repo is simplest (GitHub Pages is free on public repos). Pages on a *private*
+     repo requires a paid GitHub plan (Pro/Team).
 
-## 3. Custom domain
+2. **Push this project** (run from the project root):
+   ```bash
+   git remote add origin https://github.com/<your-account>/caldwell-safari.git
+   git push -u origin main
+   ```
+   (The branch is already named `main`.)
 
-1. In the Pages project → **Custom domains** → add `www.caldwellsafari.com` and
-   `caldwellsafari.com`.
-2. Cloudflare will create the DNS records (point the domain's nameservers at Cloudflare if not
-   already). The repo includes a `public/CNAME` (`www.caldwellsafari.com`) and the site is
-   configured with `site: https://www.caldwellsafari.com` in `astro.config.mjs` — keep these in
-   sync if you change the canonical host.
-3. Decide on apex vs www as canonical and set a redirect for the other (Cloudflare → Rules →
-   Redirect Rules).
+3. **Enable Pages with Actions:** repo → **Settings → Pages → Build and deployment →
+   Source = “GitHub Actions.”** No branch to pick — the included workflow handles build + deploy.
 
-## 4. Preserve old URLs (SEO)
+4. The **Deploy** workflow runs automatically on the push. Watch it under the repo’s
+   **Actions** tab; the first successful run publishes the site.
 
-The old Wix site used a few paths that may be indexed. Add **Redirect Rules** (301) in
-Cloudflare, or a `public/_redirects` file, mapping:
+5. **Custom domain:** the build ships a `CNAME` file (`public/CNAME` →
+   `caldwellsafaris.kurocode.com`), so GitHub sets the custom domain automatically. You can
+   confirm it under **Settings → Pages → Custom domain**.
 
-| Old path | New path |
-|---|---|
-| `/prices-in-usd` | `/prices` |
-| `/prices-in-euro` | `/prices` |
-| `/hunting-gallery` | `/gallery` |
-| `/accomodation` | `/gallery` |
+---
 
-`/about` and `/contact` already match.
+## Part 2 — Route 53 DNS (your kurocode.com AWS account)
 
-`public/_redirects` example:
-```
-/prices-in-usd    /prices    301
-/prices-in-euro   /prices    301
-/hunting-gallery  /gallery   301
-/accomodation     /gallery   301
-```
+In the AWS account where `kurocode.com` is registered:
 
-## 5. Caching & headers
+1. **Route 53 → Hosted zones → `kurocode.com` → Create record.**
+2. Create the subdomain record:
+   - **Record name:** `caldwellsafaris`
+   - **Record type:** `CNAME`
+   - **Value:** `<your-account>.github.io`  ← your GitHub **username/org**, not the repo
+     (e.g. `kurocode.github.io`). Include the trailing dot if the console requires it.
+   - **TTL:** `300`
+3. *(Recommended — prevents domain takeover)* **Verify the domain in GitHub:** GitHub →
+   **Settings → Pages → “Verify” / Settings → Pages → Verified domains** gives you a TXT record
+   like `_github-pages-challenge-<account>.kurocode.com`. Add it in Route 53 as a **TXT** record,
+   then click Verify.
 
-`public/_headers` is already configured: immutable long-cache for hashed `/_astro/*` build
-assets and images, plus security headers. Cloudflare auto-minifies and compresses.
+4. Wait a few minutes for DNS to propagate. GitHub detects the domain and provisions a
+   **Let’s Encrypt** certificate automatically.
+
+5. Once the cert is issued, tick **Settings → Pages → “Enforce HTTPS.”**
+
+You should now reach the site at **https://caldwellsafaris.kurocode.com**.
+
+> CLI alternative for step 2 (run in the kurocode.com account; replace `ZONEID` and the GitHub
+> account):
+> ```bash
+> aws route53 change-resource-record-sets --hosted-zone-id ZONEID --change-batch '{
+>   "Changes": [{
+>     "Action": "UPSERT",
+>     "ResourceRecordSet": {
+>       "Name": "caldwellsafaris.kurocode.com",
+>       "Type": "CNAME",
+>       "TTL": 300,
+>       "ResourceRecords": [{ "Value": "<your-account>.github.io" }]
+>     }
+>   }]
+> }'
+> ```
+
+---
+
+## Updating the site
+
+Edit content/code and push to `main` — the Action rebuilds and redeploys automatically.
+Content lives in `src/data/*` (pricing, gallery, contact) and `src/pages/*` (see README).
+
+## Notes
+
+- **CDN / performance:** GitHub Pages → Fastly gives global edge caching + HTTP/2 + free TLS.
+  Lighthouse mobile scored 100 a11y/best-practices/SEO; LCP ≈ 0.7s, CLS 0.00.
+- **Cache headers** are managed by GitHub Pages (not customisable). Fine for a static brochure
+  site; hashed `/_astro/*` assets are still edge-cached.
+- **Want your own CloudFront later?** The output is plain static files, so you can put AWS
+  CloudFront in front (origin = `<account>.github.io`, origin path = `/`, ACM cert,
+  Route 53 alias) or move to S3 + CloudFront without changing the site. Not needed for launch.
 
 ---
 
 ## Pre-launch content checklist
 
-These items use real data pulled from the existing site, but a few should be confirmed or
-supplied by the owner before going live:
+Real data was pulled from the existing site; confirm/supply these before going fully live:
 
-- [ ] **Social links** — `src/data/site.ts` `SOCIALS` currently point to the platform home
-      pages. Replace with the real Caldwell Facebook / YouTube / Instagram profile URLs.
-- [ ] **Trophy fee list** — `src/data/prices.ts` holds a representative selection taken from
-      the current site. Confirm the full species list and current rates. (EUR is auto-derived
-      from USD at ×0.9, matching the published figures — change the factor in `money()` if the
-      exchange basis changes.)
-- [ ] **Observer / firearm rates** — the USD page listed these as "enquire"; values shown are
-      derived from the EUR figures (observer $150, firearm $150 subject to caliber). Confirm.
-- [ ] **Accommodation photos** — only two suitable lodging images existed on the old site.
-      Supply a few more high-resolution photos of the farmhouse, chalets, veranda, firepit and
-      views; add them to `src/assets/images/` and list them in `src/data/gallery.ts`.
-- [ ] **Hero image** — a dramatic cape-buffalo photo is used. Swap in a higher-resolution
-      original (or an alternative wide landscape) if available; replace
-      `src/assets/images/hero-buffalo.jpg`.
-- [ ] **Logo** — header uses a typographic wordmark; switch to the badge logo
-      (`src/assets/images/logo.png`) if preferred.
+- [ ] **Social links** — `src/data/site.ts` `SOCIALS` point to platform home pages; replace
+      with the real Caldwell Facebook / YouTube / Instagram profile URLs.
+- [ ] **Trophy fee list** — `src/data/prices.ts` holds the published selection; confirm the full
+      species list and current rates. (EUR auto-derives from USD at ×0.9 — change `money()` if
+      the basis changes.)
+- [ ] **Observer / firearm rates** — derived (observer $150; firearm $150, subject to caliber);
+      confirm.
+- [ ] **Accommodation photos** — only two suitable lodging images existed; add more
+      high-resolution photos to `src/assets/images/` and list them in `src/data/gallery.ts`.
+- [ ] **Hero image** — swap in a higher-resolution buffalo (or alternative wide shot) if
+      available, replacing `src/assets/images/hero-buffalo.jpg`.
+- [ ] **Logo** — header uses a wordmark; switch to `src/assets/images/logo.png` if preferred.
 
-To re-download originals from the old site at any time: `node scripts/fetch-images.mjs`
-(writes to `raw-images/`, which is git-ignored).
-
-## Verified
-
-Lighthouse (mobile): Accessibility 100, Best Practices 100, SEO 100. Performance: LCP ≈ 0.7s,
-CLS 0.00 (throttled Fast 4G / 4× CPU). No horizontal overflow from 320px to desktop.
+To re-pull originals from the old site: `node scripts/fetch-images.mjs` (writes to the
+git-ignored `raw-images/`).
