@@ -1,0 +1,20 @@
+{
+  "name": "caldwell-safari",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Caldwell Safaris — premium static website (Astro)",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "@astrojs/sitemap": "^3.2.0",
+    "@fontsource/marcellus": "^5.1.0",
+    "@fontsource/mulish": "^5.1.0",
+    "sharp": "^0.33.5"
+  }
+}

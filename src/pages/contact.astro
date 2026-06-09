@@ -1,0 +1,102 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import { CONTACT } from "../data/site";
+import campSign from "../assets/images/camp-sign.jpg";
+
+const methods = [
+  {
+    label: "Email us",
+    value: CONTACT.email,
+    href: `mailto:${CONTACT.email}`,
+    icon: "M3 6h18v12H3V6Zm0 0 9 7 9-7",
+    note: "We usually reply within a day.",
+    external: false,
+  },
+  {
+    label: "Call or WhatsApp",
+    value: CONTACT.phoneDisplay,
+    href: CONTACT.whatsapp,
+    icon: "M6 3h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z",
+    note: "Fastest for quick questions.",
+    external: true,
+  },
+  {
+    label: "Zoom consultation",
+    value: "Book a video chat",
+    href: CONTACT.zoom,
+    icon: "M3 7h11v10H3V7Zm11 3 7-3v10l-7-3",
+    note: "No pressure — just honest planning.",
+    external: true,
+  },
+];
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Caldwell Safaris — email, phone, WhatsApp, or book a Zoom consultation to plan your free-range South African hunting safari."
+  overHero={true}
+>
+  <Hero
+    image={campSign}
+    alt="The rustic Caldwell Safaris welcome sign"
+    kicker="Get in touch"
+    heading="Let's plan your safari."
+    sub="Tell us your dates, the species you're after and your budget — we'll handle the rest."
+    compact={true}
+  />
+
+  <Section variant="sand">
+    <div class="container">
+      <div class="contact-grid">
+        {methods.map((m) => (
+          <a
+            class="method"
+            href={m.href}
+            target={m.external ? "_blank" : undefined}
+            rel={m.external ? "noopener noreferrer" : undefined}
+          >
+            <span class="method__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d={m.icon} /></svg>
+            </span>
+            <span class="method__label">{m.label}</span>
+            <span class="method__value">{m.value}</span>
+            <span class="method__note">{m.note}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <Section variant="paper" tight={true}>
+    <div class="container--narrow text-center stack">
+      <span class="kicker">Before you go</span>
+      <h2>A friendly word</h2>
+      <p class="lede">Booking a safari from the other side of the world can feel daunting — it needn't. Whether you already know exactly what you want or you're just starting to dream, reach out. We'll talk you through everything, honestly and at your pace.</p>
+      <p class="muted">{CONTACT.region}</p>
+      <div style="display:flex; justify-content:center; margin-top: var(--space-xs);"><SocialLinks class="socials--dark" /></div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .contact-grid { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .contact-grid { grid-template-columns: repeat(3, 1fr); } }
+  .method {
+    display: flex; flex-direction: column; gap: 0.35rem; text-align: left;
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: var(--space-md); color: inherit;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .method:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--ochre) 55%, var(--line)); }
+  .method__icon { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 999px;
+    background: color-mix(in srgb, var(--ochre) 22%, transparent); color: var(--bark); margin-bottom: 0.4rem; }
+  .method__label { font-size: var(--step--1); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bark); }
+  .method__value { font-family: var(--font-display); font-size: var(--step-2); color: var(--ink); word-break: break-word; }
+  .method__note { font-size: var(--step--1); color: var(--text-muted); }
+  /* dark social pills sit on light bg here */
+  :global(.socials--dark a) { border-color: var(--line); color: var(--bark); }
+  :global(.socials--dark a:hover) { color: var(--ink); }
+</style>

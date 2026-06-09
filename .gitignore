@@ -8,6 +8,9 @@ dist/
 # Brainstorm / visual companion scratch
 .superpowers/
 
+# Raw downloaded source images (curated copies live in src/assets/images)
+raw-images/
+
 # Env & local
 .env
 .env.*

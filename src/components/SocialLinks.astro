@@ -1,0 +1,38 @@
+---
+import { SOCIALS } from "../data/site";
+
+interface Props { class?: string }
+const { class: cls = "" } = Astro.props;
+
+const paths: Record<string, string> = {
+  facebook:
+    "M14 8.5h2V5.7C15.5 5.6 14.8 5.5 14 5.5c-2 0-3.4 1.2-3.4 3.5v1.7H8v2.8h2.6V21h3v-7.5H16l.4-2.8h-2.8V9.2c0-.5.2-.7.9-.7Z",
+  youtube:
+    "M21.6 8.6c-.2-.9-.8-1.5-1.7-1.7C18.3 6.5 12 6.5 12 6.5s-6.3 0-7.9.4c-.9.2-1.5.8-1.7 1.7C2 10.2 2 12 2 12s0 1.8.4 3.4c.2.9.8 1.5 1.7 1.7 1.6.4 7.9.4 7.9.4s6.3 0 7.9-.4c.9-.2 1.5-.8 1.7-1.7.4-1.6.4-3.4.4-3.4s0-1.8-.4-3.4ZM10 14.6V9.4l4.4 2.6L10 14.6Z",
+  instagram:
+    "M12 7.4A4.6 4.6 0 1 0 12 16.6 4.6 4.6 0 0 0 12 7.4Zm0 7.6a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm4.8-7.8a1.07 1.07 0 1 1-2.14 0 1.07 1.07 0 0 1 2.14 0ZM20 7.6c-.05-1.4-.37-2.64-1.4-3.66C17.58 2.9 16.34 2.58 14.94 2.5 13.5 2.42 9.5 2.42 8.06 2.5 6.66 2.58 5.42 2.9 4.4 3.94 3.37 4.96 3.05 6.2 2.97 7.6c-.08 1.44-.08 5.44 0 6.88.08 1.4.4 2.64 1.43 3.66 1.02 1.04 2.26 1.36 3.66 1.44 1.44.08 5.44.08 6.88 0 1.4-.08 2.64-.4 3.66-1.44 1.03-1.02 1.35-2.26 1.4-3.66.08-1.44.08-5.43 0-6.88ZM18.1 16.6a3.04 3.04 0 0 1-1.71 1.71c-1.18.47-3.98.36-5.29.36-1.31 0-4.11.1-5.29-.36a3.04 3.04 0 0 1-1.71-1.71c-.47-1.18-.36-3.98-.36-5.29 0-1.31-.1-4.11.36-5.29A3.04 3.04 0 0 1 6.7 4.32c1.18-.47 3.98-.36 5.29-.36 1.31 0 4.11-.1 5.29.36a3.04 3.04 0 0 1 1.71 1.71c.47 1.18.36 3.98.36 5.29 0 1.31.11 4.11-.36 5.29Z",
+};
+---
+
+<ul class={`socials ${cls}`.trim()}>
+  {SOCIALS.map((s) => (
+    <li>
+      <a href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <path d={paths[s.icon]} fill="currentColor" />
+        </svg>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .socials { list-style: none; display: flex; gap: 0.6rem; padding: 0; }
+  .socials a {
+    display: grid; place-items: center; width: 40px; height: 40px;
+    border: 1.5px solid var(--line-on-dark); border-radius: 999px;
+    color: currentColor; transition: background var(--dur-fast) var(--ease),
+      color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  }
+  .socials a:hover { background: var(--ochre); color: var(--ink); border-color: var(--ochre); transform: translateY(-2px); }
+</style>

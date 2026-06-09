@@ -1,0 +1,86 @@
+---
+import type { Trophy } from "../data/prices";
+interface Props { rows: Trophy[] }
+const { rows } = Astro.props;
+---
+<div class="trophy">
+  <label class="trophy__search">
+    <span class="visually-hidden">Filter species</span>
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+    <input type="search" placeholder="Filter species…" data-trophy-filter autocomplete="off" />
+  </label>
+
+  <table class="trophy__table">
+    <caption class="visually-hidden">Trophy fees by species</caption>
+    <thead>
+      <tr><th scope="col">Species</th><th scope="col" class="num">Trophy fee</th></tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr data-species={r.species.toLowerCase()}>
+          <td>{r.species}</td>
+          <td class="num">
+            {r.por ? (
+              <span class="por" title="Price on request">POR</span>
+            ) : (
+              <>
+                <span data-cur="usd">{r.price.usd}</span><span data-cur="eur">{r.price.eur}</span>
+              </>
+            )}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p class="trophy__empty" data-trophy-empty hidden>No species match that search.</p>
+  <p class="trophy__note muted">A representative selection. The full species list and current rates are confirmed on enquiry. <strong>POR</strong> = price on request.</p>
+</div>
+
+<style>
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .trophy { max-width: 720px; margin-inline: auto; }
+  .trophy__search {
+    display: flex; align-items: center; gap: 0.6rem;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 999px;
+    padding: 0.5rem 1.1rem; margin-bottom: var(--space-sm); color: var(--bark);
+  }
+  .trophy__search:focus-within { border-color: var(--ochre); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ochre) 28%, transparent); }
+  .trophy__search input { flex: 1; border: 0; background: none; outline: none; font-size: var(--step-0); color: var(--ink); }
+  .trophy__table { width: 100%; border-collapse: collapse; }
+  .trophy__table th, .trophy__table td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid var(--line); }
+  .trophy__table th {
+    font-family: var(--font-body); font-weight: 700; font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--bark);
+  }
+  .trophy__table td { font-size: var(--step-0); }
+  .trophy__table .num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .trophy__table tbody tr { transition: background var(--dur-fast) var(--ease); }
+  .trophy__table tbody tr:hover { background: color-mix(in srgb, var(--ochre) 12%, transparent); }
+  .por {
+    display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+    padding: 0.2em 0.6em; border-radius: 999px;
+    background: color-mix(in srgb, var(--bushveld) 18%, transparent); color: var(--bushveld);
+  }
+  .trophy__empty { text-align: center; padding: var(--space-sm); color: var(--text-muted); }
+  .trophy__note { margin-top: var(--space-sm); font-size: var(--step--1); }
+</style>
+
+<script>
+  function initTrophyFilter() {
+    const input = document.querySelector<HTMLInputElement>("[data-trophy-filter]");
+    const empty = document.querySelector<HTMLElement>("[data-trophy-empty]");
+    if (!input) return;
+    const rows = Array.from(document.querySelectorAll<HTMLTableRowElement>("tr[data-species]"));
+    input.addEventListener("input", () => {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      rows.forEach((row) => {
+        const match = (row.dataset.species ?? "").includes(q);
+        row.hidden = !match;
+        if (match) shown++;
+      });
+      if (empty) empty.hidden = shown !== 0;
+    });
+  }
+  document.addEventListener("astro:page-load", initTrophyFilter);
+</script>

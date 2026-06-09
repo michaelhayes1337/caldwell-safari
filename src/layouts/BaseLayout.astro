@@ -1,0 +1,48 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "@fontsource/marcellus/400.css";
+import "@fontsource/mulish/400.css";
+import "@fontsource/mulish/600.css";
+import "@fontsource/mulish/700.css";
+import "../styles/global.css";
+import "../styles/motion.css";
+import SeoHead from "../components/SeoHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  /** Header floats over a full-bleed hero on this page. */
+  overHero?: boolean;
+}
+const { title, description, image, overHero = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <SeoHead title={title} description={description} image={image} />
+    <ClientRouter />
+    <script is:inline>
+      // Apply saved currency before paint to avoid a flash on the prices page.
+      try {
+        var c = localStorage.getItem("cs-currency");
+        if (c === "eur" || c === "usd") document.documentElement.dataset.currency = c;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header overHero={overHero} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import "../scripts/reveal.ts";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+---
+interface Props {
+  variant?: "sand" | "paper" | "sand-2" | "green";
+  tight?: boolean;
+  reveal?: boolean;
+  id?: string;
+  class?: string;
+}
+const { variant = "sand", tight = false, reveal = true, id, class: cls = "" } = Astro.props;
+const bg =
+  variant === "paper" ? "bg-paper" :
+  variant === "sand-2" ? "bg-sand-2" :
+  variant === "green" ? "bg-green on-dark" : "";
+---
+<section
+  id={id}
+  class:list={["section", bg, cls, { "section--tight": tight }]}
+  data-reveal={reveal ? "" : undefined}
+>
+  <slot />
+</section>

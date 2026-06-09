@@ -1,0 +1,45 @@
+/* ============================================================
+   Caldwell Safaris — Motion
+   All motion gated behind prefers-reduced-motion: no-preference
+   ============================================================ */
+
+/* Default (reduced motion): everything visible, no transforms */
+[data-reveal] { opacity: 1; }
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal].is-visible { opacity: 1; transform: none; }
+
+  /* Hero load: staggered fade-up */
+  .hero__kicker, .hero__title, .hero__sub, .hero__cta {
+    opacity: 0;
+    transform: translateY(22px);
+    animation: rise var(--dur-slow) var(--ease-out) forwards;
+  }
+  .hero__kicker { animation-delay: 0.15s; }
+  .hero__title  { animation-delay: 0.30s; }
+  .hero__sub    { animation-delay: 0.55s; }
+  .hero__cta    { animation-delay: 0.75s; }
+
+  /* Hero image slow ken-burns */
+  .hero__media img { animation: kenburns 18s var(--ease) forwards; }
+
+  .scroll-cue { animation: bob 2.2s ease-in-out infinite; }
+}
+
+@keyframes rise { to { opacity: 1; transform: none; } }
+@keyframes kenburns { from { transform: scale(1.08); } to { transform: scale(1); } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
+
+/* View Transitions: gentle cross-fade */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: vt-out 220ms var(--ease) both; }
+  ::view-transition-new(root) { animation: vt-in 320ms var(--ease) both; }
+}
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; } }

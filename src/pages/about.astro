@@ -1,0 +1,101 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+
+import kuduBull from "../assets/images/kudu-bull.jpg";
+import huntKuduPair from "../assets/images/hunt-kudu-pair.jpg";
+import phSunset from "../assets/images/ph-sunset.jpg";
+---
+
+<BaseLayout
+  title="About"
+  description="Meet the Caldwell family — three generations of free-range, fair-chase hunting in South Africa, led by professional hunters Mike and Jayden Caldwell."
+  overHero={true}
+>
+  <Hero
+    image={kuduBull}
+    alt="A greater kudu bull stands alert in the South African bushveld"
+    kicker="Since 1993"
+    heading="A family, a legacy,<br>a track through Africa."
+    sub="Meet the Caldwells — the people behind every safari."
+    compact={true}
+  />
+
+  <Section variant="sand">
+    <div class="container--narrow text-center stack">
+      <span class="kicker">Our story</span>
+      <h2>Respect for the wild, passed down a generation.</h2>
+      <p class="lede">For the Caldwells, hunting has always been about more than the trophy — it is about fair chase, reverence for the animal, and the quiet thrill of the stalk. This is where it began, and where it is headed.</p>
+    </div>
+  </Section>
+
+  <!-- Mike -->
+  <Section variant="paper">
+    <div class="container split">
+      <div class="split__media">
+        <Image src={huntKuduPair} alt="Mike Caldwell with a heavy-horned kudu" widths={[480, 760, 1000]} sizes="(min-width:900px) 46vw, 90vw" format="avif" loading="lazy" />
+      </div>
+      <div class="split__text stack">
+        <span class="kicker">The founder</span>
+        <h2>Mike Caldwell</h2>
+        <p>Mike found his passion for the hunt as a boy, at his father Trevor's side in the old Eastern Transvaal — now Mpumalanga — chasing birds and small antelope across the veld. When he came of age he bought his first rifle, and a lifelong pursuit of Southern Africa's plains game began.</p>
+        <p>In 1993 he turned that passion into a profession, qualifying as a professional hunter and outfitter. Caldwell Safaris was born. He went on to hunt the great trophies of Mozambique and northern Zimbabwe in pursuit of the Big&nbsp;Five — and earned a name as a respected Big&nbsp;Five outfitter.</p>
+        <p>Mike and his wife Roz have shared a love of wildlife for over thirty years, raising their children — Jayden, Tristen and Tannah — with the same values they hold for the African wilderness: to respect it, and to protect it.</p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Jayden -->
+  <Section variant="sand">
+    <div class="container split split--reverse">
+      <div class="split__text stack">
+        <span class="kicker">The future</span>
+        <h2>Jayden Caldwell</h2>
+        <p>From the time he could walk, Jayden was on his father's hunts — usually up on Mike's shoulders, with a bird's-eye view of the veld. He took his first animal at ten, only once he truly understood what ethical hunting means. He has never forgotten it.</p>
+        <blockquote class="pull-quote">
+          &ldquo;Calm and compassionate in the field, Jayden is — without fail — the part of the safari our guests remember.&rdquo;
+          <cite>— Roz Caldwell</cite>
+        </blockquote>
+        <p>At sixteen he became an apprentice professional hunter under his father's guidance, and in time a full PH. &ldquo;He taught me not just how to be effective,&rdquo; Jayden says, &ldquo;but how to be ethical. I've taken his mantra as my own.&rdquo;</p>
+      </div>
+      <div class="split__media">
+        <Image src={phSunset} alt="Jayden Caldwell silhouetted against a bushveld sunset" widths={[480, 760, 1000]} sizes="(min-width:900px) 46vw, 90vw" format="avif" loading="lazy" />
+      </div>
+    </div>
+  </Section>
+
+  <!-- Ethos -->
+  <Section variant="green">
+    <div class="container--narrow text-center stack">
+      <span class="kicker">Our ethos</span>
+      <p class="mantra">&ldquo;Hunt fair, and with respect.&rdquo;</p>
+      <p class="lede" style="color: color-mix(in srgb, var(--cream) 86%, transparent); margin-inline:auto;">Genuine free-range, fair-chase hunting on open country — conducted ethically, with reverence for the animal and the wild it belongs to. It is the heart of everything we do.</p>
+      <div class="btn-row" style="justify-content:center; margin-top: var(--space-sm);">
+        <a href="/contact" class="btn">Plan Your Safari</a>
+        <a href="/gallery" class="btn btn--outline">View the gallery</a>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .split { display: grid; gap: var(--space-lg); align-items: center; }
+  .split__media :global(img) { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); aspect-ratio: 4/3; object-fit: cover; }
+  @media (min-width: 900px) {
+    .split { grid-template-columns: 1fr 1fr; gap: var(--space-xl); }
+    .split--reverse .split__media { order: -1; }
+  }
+  .pull-quote {
+    border-left: 3px solid var(--ochre);
+    padding: 0.2rem 0 0.2rem var(--space-sm);
+    margin: var(--space-xs) 0;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: var(--leading-snug);
+    color: var(--ink);
+  }
+  .pull-quote cite { display: block; margin-top: 0.6rem; font-family: var(--font-body); font-style: normal; font-size: var(--step--1); font-weight: 700; letter-spacing: 0.04em; color: var(--bark); }
+  .mantra { font-family: var(--font-display); font-size: var(--step-4); color: var(--cream); }
+</style>

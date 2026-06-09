@@ -1,0 +1,34 @@
+---
+interface Props { class?: string }
+const { class: cls = "" } = Astro.props;
+---
+<div class={`cur-toggle ${cls}`.trim()} role="group" aria-label="Choose currency">
+  <span class="cur-toggle__label">Prices in</span>
+  <div class="cur-toggle__track">
+    <button type="button" data-cur-btn="usd" aria-pressed="true" class="is-active">USD&nbsp;$</button>
+    <button type="button" data-cur-btn="eur" aria-pressed="false">EUR&nbsp;€</button>
+  </div>
+</div>
+
+<style is:global>
+  /* Currency value visibility — driven by data-currency on <html> */
+  [data-cur] { display: none; }
+  :root:not([data-currency="eur"]) [data-cur="usd"] { display: inline; }
+  :root[data-currency="eur"] [data-cur="eur"] { display: inline; }
+</style>
+
+<style>
+  .cur-toggle { display: inline-flex; align-items: center; gap: 0.75rem; }
+  .cur-toggle__label { font-size: var(--step--1); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bark); }
+  .cur-toggle__track {
+    display: inline-flex; padding: 4px; gap: 2px;
+    background: color-mix(in srgb, var(--bark) 14%, transparent);
+    border-radius: 999px;
+  }
+  .cur-toggle button {
+    font-family: var(--font-body); font-weight: 700; font-size: var(--step--1);
+    letter-spacing: 0.03em; padding: 0.5em 1.1em; border-radius: 999px;
+    color: var(--ink-soft); transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+  }
+  .cur-toggle button.is-active { background: var(--ochre); color: var(--ink); box-shadow: var(--shadow-sm); }
+</style>

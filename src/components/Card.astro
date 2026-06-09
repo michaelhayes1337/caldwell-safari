@@ -1,0 +1,52 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  title: string;
+  text: string;
+  href?: string;
+  linkLabel?: string;
+}
+const { image, alt, title, text, href, linkLabel = "Learn more" } = Astro.props;
+const Tag = href ? "a" : "article";
+---
+<Tag class="card" href={href}>
+  <div class="card__media">
+    <Image src={image} alt={alt} widths={[400, 700, 900]} sizes="(min-width: 900px) 30vw, 90vw" format="avif" loading="lazy" />
+  </div>
+  <div class="card__body">
+    <h3 class="card__title">{title}</h3>
+    <p class="card__text">{text}</p>
+    {href && <span class="card__link link">{linkLabel}</span>}
+  </div>
+</Tag>
+
+<style>
+  .card {
+    display: flex; flex-direction: column;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: inherit;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  a.card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--ochre) 50%, var(--line)); }
+  .card__media { aspect-ratio: 4 / 3; overflow: hidden; }
+  .card__media :global(img) {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform var(--dur-slow) var(--ease);
+  }
+  a.card:hover .card__media :global(img) { transform: scale(1.06); }
+  .card__body { padding: var(--space-md); display: flex; flex-direction: column; gap: 0.5rem; }
+  .card__title { font-size: var(--step-2); }
+  .card__text { color: var(--text-muted); }
+  .card__link { margin-top: 0.4rem; align-self: flex-start; }
+  @media (prefers-reduced-motion: reduce) {
+    a.card:hover { transform: none; }
+    a.card:hover .card__media :global(img) { transform: none; }
+  }
+</style>

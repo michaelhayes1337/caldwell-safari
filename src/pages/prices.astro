@@ -1,0 +1,136 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import CurrencyToggle from "../components/CurrencyToggle.astro";
+import TrophyTable from "../components/TrophyTable.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { dailyRates, included, excluded, trophyFees, deposit } from "../data/prices";
+import { CONTACT } from "../data/site";
+import phSunset from "../assets/images/ph-sunset.jpg";
+---
+
+<BaseLayout
+  title="Prices"
+  description="Caldwell Safaris daily rates and trophy fees in USD and EUR — fully catered, free-range hunting in South Africa. From $250 per hunter, per day."
+>
+  <!-- Header -->
+  <Section variant="sand" tight={true}>
+    <div class="container--narrow text-center stack" style="padding-top: var(--space-md);">
+      <span class="kicker">Safari rates</span>
+      <h1>Pricing</h1>
+      <p class="lede">Transparent daily rates and trophy fees for a fully-catered, free-range safari. Switch between US Dollars and Euros below — your choice is remembered.</p>
+      <div style="margin-top: var(--space-xs);"><CurrencyToggle /></div>
+    </div>
+  </Section>
+
+  <!-- Daily rates -->
+  <Section variant="paper">
+    <div class="container">
+      <div class="section-head stack" style="margin-bottom: var(--space-lg);">
+        <span class="kicker">Daily rates</span>
+        <h2>Day fees</h2>
+        <p class="muted">Charged per person, per day for the duration of your safari.</p>
+      </div>
+      <div class="rate-grid">
+        {dailyRates.map((r) => (
+          <div class="rate-card">
+            <p class="rate-card__label">{r.label}</p>
+            <p class="rate-card__price">
+              <span data-cur="usd">{r.price.usd}</span><span data-cur="eur">{r.price.eur}</span>
+            </p>
+            <p class="rate-card__note">{r.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Included / excluded -->
+  <Section variant="sand">
+    <div class="container incl-grid">
+      <div>
+        <span class="kicker">What's included</span>
+        <ul class="ticks ticks--in">
+          {included.map((i) => <li>{i}</li>)}
+        </ul>
+      </div>
+      <div>
+        <span class="kicker">What's excluded</span>
+        <ul class="ticks ticks--out">
+          {excluded.map((i) => <li>{i}</li>)}
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Trophy fees -->
+  <Section variant="sand-2">
+    <div class="container">
+      <div class="section-head section-head--center stack" style="margin-inline:auto; margin-bottom: var(--space-md);">
+        <span class="kicker">Trophy fees</span>
+        <h2>Per animal taken</h2>
+        <p class="muted">Trophy fees apply only to animals harvested. Use the search to find a species.</p>
+        <div style="margin-top: var(--space-2xs);"><CurrencyToggle /></div>
+      </div>
+      <TrophyTable rows={trophyFees} />
+    </div>
+  </Section>
+
+  <!-- Booking terms -->
+  <Section variant="green">
+    <div class="container--narrow stack text-center">
+      <span class="kicker">Booking terms</span>
+      <h2>Securing your safari</h2>
+      <p class="deposit">
+        <span data-cur="usd">{deposit.usd}</span><span data-cur="eur">{deposit.eur}</span>
+        <span class="deposit__sub">deposit to confirm your booking</span>
+      </p>
+      <p class="lede" style="color: color-mix(in srgb, var(--cream) 86%, transparent); margin-inline:auto; max-width: 52ch;">
+        Deposits are non-refundable but fully transferable to the following year. The balance of your daily rate and trophy fees is settled at the conclusion of the safari. All rates are quoted excluding 15% VAT.
+      </p>
+    </div>
+  </Section>
+
+  <CtaBand
+    image={phSunset}
+    alt="Bushveld sunset"
+    kicker="Ready when you are"
+    heading="Let's build your safari."
+    text="Tell us your dates, species and budget — or book a no-pressure Zoom consultation and we'll plan it together."
+    primary={{ label: "Enquire now", href: "/contact" }}
+    secondary={{ label: "Book a Zoom consult", href: CONTACT.zoom }}
+  />
+
+  <script>
+    import "../scripts/currency.ts";
+  </script>
+</BaseLayout>
+
+<style>
+  .rate-grid { display: grid; gap: var(--space-sm); grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .rate-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 920px) { .rate-grid { grid-template-columns: repeat(3, 1fr); } }
+  .rate-card {
+    background: var(--sand); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: var(--space-md); display: flex; flex-direction: column; gap: 0.25rem;
+    transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+  .rate-card:hover { border-color: color-mix(in srgb, var(--ochre) 55%, var(--line)); transform: translateY(-3px); }
+  .rate-card__label { font-weight: 700; font-size: var(--step-0); }
+  .rate-card__price { font-family: var(--font-display); font-size: var(--step-4); color: var(--bark); line-height: 1; }
+  .rate-card__note { font-size: var(--step--1); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .incl-grid { display: grid; gap: var(--space-lg); }
+  @media (min-width: 800px) { .incl-grid { grid-template-columns: 1fr 1fr; gap: var(--space-xl); } }
+  .ticks { list-style: none; padding: 0; margin-top: var(--space-sm); display: grid; gap: 0.7rem; }
+  .ticks li { position: relative; padding-left: 2rem; }
+  .ticks li::before {
+    position: absolute; left: 0; top: 0.05em; width: 1.4rem; height: 1.4rem;
+    border-radius: 999px; display: grid; place-items: center; font-size: 0.8rem; font-weight: 700;
+  }
+  .ticks--in li::before { content: "✓"; background: color-mix(in srgb, var(--bushveld) 20%, transparent); color: var(--bushveld); }
+  .ticks--out li::before { content: "✕"; background: color-mix(in srgb, var(--bark) 18%, transparent); color: var(--bark); }
+
+  .deposit { font-family: var(--font-display); font-size: var(--step-5); color: var(--cream); line-height: 1; }
+  .deposit__sub { display: block; font-family: var(--font-body); font-size: var(--step-0); font-weight: 600; letter-spacing: 0.04em; color: var(--ochre); margin-top: 0.5rem; }
+</style>

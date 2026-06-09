@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import GalleryTabs from "../components/GalleryTabs.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { hunting, accommodation } from "../data/gallery";
+import { CONTACT } from "../data/site";
+import phSunset from "../assets/images/ph-sunset.jpg";
+
+const tabs = [
+  { id: "hunting", label: "Hunting", intro: "Moments from the field — plains game, big game and bow hunts across our free-range country.", items: hunting },
+  { id: "accommodation", label: "Camp & Stay", intro: "Home base is an early-1900s farmhouse with a wraparound veranda and original oregon-pine floors, set among chalets, a barn lounge, an open-air bar and a great firepit for bonfires and braais — securely fenced, with uninterrupted views of the wild.", items: accommodation },
+];
+---
+
+<BaseLayout
+  title="Gallery"
+  description="Photographs from Caldwell Safaris — hunting in the South African bushveld and life around the camp and homestead."
+>
+  <Section variant="sand" tight={true}>
+    <div class="container--narrow text-center stack" style="padding-top: var(--space-md);">
+      <span class="kicker">Gallery</span>
+      <h1>From the bushveld</h1>
+      <p class="lede">A look at the hunts, the country and the camp. Tap any photograph to view it full-screen.</p>
+    </div>
+  </Section>
+
+  <Section variant="paper" tight={true}>
+    <div class="container">
+      <GalleryTabs tabs={tabs} />
+    </div>
+  </Section>
+
+  <CtaBand
+    image={phSunset}
+    alt="Bushveld sunset"
+    kicker="Your turn"
+    heading="Make your own memories."
+    text="Every photograph here started with a conversation. Let's start yours."
+    primary={{ label: "Plan Your Safari", href: "/contact" }}
+    secondary={{ label: "View pricing", href: "/prices" }}
+  />
+</BaseLayout>

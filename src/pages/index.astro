@@ -1,0 +1,173 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import Card from "../components/Card.astro";
+import FeatureStrip from "../components/FeatureStrip.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { CONTACT } from "../data/site";
+
+import heroBuffalo from "../assets/images/hero-buffalo.jpg";
+import phSunset from "../assets/images/ph-sunset.jpg";
+import huntKudu from "../assets/images/hunt-kudu.jpg";
+import huntLion from "../assets/images/hunt-lion.jpg";
+import bowHunters from "../assets/images/bow-hunters.jpg";
+import kuduBull from "../assets/images/kudu-bull.jpg";
+import huntSpringbok from "../assets/images/hunt-springbok.jpg";
+import accomChalet from "../assets/images/accom-chalet.jpg";
+import huntBlackWildebeest from "../assets/images/hunt-black-wildebeest.jpg";
+
+const features = [
+  { icon: "land", title: "Free-range land", text: "No fences, no put-and-take. Genuine fair-chase hunting across open, wild country." },
+  { icon: "family", title: "Family-run since 1993", text: "You hunt alongside the Caldwells themselves — professional hunters who do this for the love of it." },
+  { icon: "ethics", title: "Ethical & fair chase", text: "Respect for the animal and the wild comes first, always. It is the heart of how we hunt." },
+  { icon: "permit", title: "Permits handled", text: "Every licence and permit is arranged for you, so you can simply focus on the hunt." },
+  { icon: "transfer", title: "Transfers & catering", text: "Airport transfers from Johannesburg, comfortable lodging, full catering and daily laundry." },
+];
+---
+
+<BaseLayout
+  title="Caldwell Safaris"
+  description="A family-run, free-range hunting safari in South Africa — plains game, big game and bow hunting, guided with honesty and respect since 1993."
+  overHero={true}
+>
+  <Hero
+    image={heroBuffalo}
+    alt="A cape buffalo emerges from the shadows of the South African bushveld"
+    kicker="Free-range hunting · South Africa"
+    heading="The wild, the way<br>it was meant to be."
+    sub="A family-run safari on open, free-range country — plains game, big game and bow hunting, guided with honesty and heart since 1993."
+    primary={{ label: "Plan Your Safari", href: "/contact" }}
+    secondary={{ label: "View Pricing", href: "/prices" }}
+  />
+
+  <!-- Origins teaser -->
+  <Section variant="sand">
+    <div class="container split">
+      <div class="split__media">
+        <Image src={phSunset} alt="A professional hunter silhouetted against a bushveld sunset" widths={[480, 760, 1000]} sizes="(min-width:900px) 42vw, 90vw" format="avif" loading="lazy" />
+      </div>
+      <div class="split__text stack">
+        <span class="kicker">Our story</span>
+        <h2>Three generations on the same track through Africa.</h2>
+        <p>Caldwell Safaris began with a boy, his father, and a rifle in the old Eastern Transvaal. Mike Caldwell turned a lifelong passion into a calling — qualifying as a professional hunter and outfitter in 1993, and earning his name across Southern Africa as a respected Big&nbsp;Five outfitter.</p>
+        <p>Today his son Jayden carries that legacy forward, with the same reverence for the wild the family has always lived by.</p>
+        <a href="/about" class="link">Read the Caldwell story</a>
+      </div>
+    </div>
+  </Section>
+
+  <!-- The hunt -->
+  <Section variant="paper">
+    <div class="container">
+      <div class="section-head section-head--center stack" style="margin-inline:auto;">
+        <span class="kicker">The hunt</span>
+        <h2>Fair-chase safaris, tailored to you.</h2>
+        <p class="lede">Whether it is your first African safari or your tenth, we build the hunt around you — your species, your pace, your way.</p>
+      </div>
+      <div class="hunt-grid">
+        <Card image={huntKudu} alt="A greater kudu bull taken on free-range land" title="Plains Game" text="Kudu, impala, blesbuck, wildebeest, eland and more — classic Southern African plains game across open, free-range terrain." href="/gallery" linkLabel="View gallery" />
+        <Card image={huntLion} alt="A big-game safari with Caldwell Safaris" title="Big Game" text="A heritage built on the Big Five. Decades of dangerous-game experience, every hunt conducted ethically and with respect." href="/gallery" linkLabel="View gallery" />
+        <Card image={bowHunters} alt="Bow hunters preparing for a stalk" title="Bow Hunting" text="Close, quiet and demanding. Purpose-built blinds and expert guidance for the patient hunter who chooses the bow." href="/gallery" linkLabel="View gallery" />
+      </div>
+    </div>
+  </Section>
+
+  <!-- Why Caldwell -->
+  <Section variant="green">
+    <div class="container">
+      <div class="section-head stack" style="margin-bottom: var(--space-lg);">
+        <span class="kicker">Why Caldwell</span>
+        <h2>Everything handled. Nothing rushed.</h2>
+      </div>
+      <FeatureStrip features={features} />
+    </div>
+  </Section>
+
+  <!-- Gallery teaser -->
+  <Section variant="sand">
+    <div class="container">
+      <div class="section-head section-head--center stack" style="margin-inline:auto; margin-bottom: var(--space-md);">
+        <span class="kicker">Gallery</span>
+        <h2>Moments from the bushveld.</h2>
+      </div>
+      <div class="mosaic">
+        <div class="mosaic__item mosaic__item--tall">
+          <Image src={kuduBull} alt="A greater kudu bull in the bushveld" widths={[500, 800]} sizes="(min-width:900px) 33vw, 50vw" format="avif" loading="lazy" />
+        </div>
+        <div class="mosaic__item">
+          <Image src={huntSpringbok} alt="A plains-game hunt at first light" widths={[400, 700]} sizes="(min-width:900px) 33vw, 50vw" format="avif" loading="lazy" />
+        </div>
+        <div class="mosaic__item">
+          <Image src={accomChalet} alt="A guest chalet at the Caldwell homestead" widths={[400, 700]} sizes="(min-width:900px) 33vw, 50vw" format="avif" loading="lazy" />
+        </div>
+        <div class="mosaic__item mosaic__item--wide">
+          <Image src={huntBlackWildebeest} alt="A hunter with a black wildebeest on the plains" widths={[600, 1000]} sizes="(min-width:900px) 66vw, 100vw" format="avif" loading="lazy" />
+        </div>
+      </div>
+      <div class="text-center" style="margin-top: var(--space-md);">
+        <a href="/gallery" class="btn btn--outline" style="color: var(--bark);">Explore the gallery</a>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Pricing teaser -->
+  <Section variant="sand-2">
+    <div class="container split split--reverse">
+      <div class="split__text stack">
+        <span class="kicker">Safari rates</span>
+        <h2>From&nbsp;$250 per hunter, per day — fully catered.</h2>
+        <p>Daily rates include your professional hunter, skinners and camp staff, comfortable accommodation, full catering and daily laundry, airport transfers from Johannesburg, and all licences and permits. Trophy fees are charged per animal taken, in USD or EUR.</p>
+        <div class="btn-row">
+          <a href="/prices" class="btn">View full pricing</a>
+        </div>
+      </div>
+      <div class="split__media">
+        <Image src={huntSpringbok} alt="Golden morning light on the hunting grounds" widths={[480, 760, 1000]} sizes="(min-width:900px) 42vw, 90vw" format="avif" loading="lazy" />
+      </div>
+    </div>
+  </Section>
+
+  <!-- Consultation CTA -->
+  <CtaBand
+    image={phSunset}
+    alt="Bushveld sunset"
+    kicker="Plan with us"
+    heading="Booking a safari shouldn't feel daunting."
+    text="It is a big trip to plan from the other side of the world. Book a relaxed Zoom consultation and we'll talk through dates, species, budget and everything in between — no pressure, just honest advice."
+    primary={{ label: "Book a Zoom consult", href: CONTACT.zoom }}
+    secondary={{ label: "Get in touch", href: "/contact" }}
+  />
+</BaseLayout>
+
+<style>
+  .split { display: grid; gap: var(--space-lg); align-items: center; }
+  .split__media :global(img) { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); aspect-ratio: 4/3; object-fit: cover; }
+  @media (min-width: 900px) {
+    .split { grid-template-columns: 0.85fr 1fr; gap: var(--space-xl); }
+    .split--reverse .split__media { order: -1; }
+  }
+
+  .hunt-grid {
+    display: grid; gap: var(--space-md); margin-top: var(--space-lg);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 720px) { .hunt-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .hunt-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .mosaic {
+    display: grid; gap: var(--space-xs);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 200px;
+  }
+  .mosaic__item { overflow: hidden; border-radius: var(--radius); }
+  .mosaic__item :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+  .mosaic__item:hover :global(img) { transform: scale(1.05); }
+  .mosaic__item--tall { grid-row: span 2; }
+  @media (min-width: 900px) {
+    .mosaic { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 230px; }
+    .mosaic__item--wide { grid-column: span 2; }
+  }
+  @media (prefers-reduced-motion: reduce) { .mosaic__item:hover :global(img) { transform: none; } }
+</style>

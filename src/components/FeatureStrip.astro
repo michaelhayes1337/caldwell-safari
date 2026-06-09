@@ -1,0 +1,49 @@
+---
+interface Feature { title: string; text: string; icon: string }
+interface Props { features: Feature[] }
+const { features } = Astro.props;
+
+const icons: Record<string, string> = {
+  land: "M3 17l5-6 4 4 3-4 6 6M2 20h20",
+  family: "M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-7 8a7 7 0 0 1 14 0",
+  ethics: "M12 3l7 3v5c0 4.4-3 8.2-7 9-4-0.8-7-4.6-7-9V6l7-3Zm-1 11l4.2-4.2-1.4-1.4L11 11.2 9.2 9.4 7.8 10.8 11 14Z",
+  permit: "M5 3h11l3 3v15H5V3Zm10 1.5V7h2.5M8 11h8M8 15h8M8 19h5",
+  transfer: "M3 12h13l-3-3m3 3l-3 3M21 5v14",
+};
+---
+<ul class="features">
+  {features.map((f) => (
+    <li class="feature" data-reveal>
+      <span class="feature__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d={icons[f.icon] ?? icons.land} />
+        </svg>
+      </span>
+      <div>
+        <h4 class="feature__title">{f.title}</h4>
+        <p class="feature__text">{f.text}</p>
+      </div>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .features {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; gap: var(--space-md);
+    grid-template-columns: 1fr;
+  }
+  .feature { display: flex; gap: var(--space-sm); align-items: flex-start; }
+  .feature__icon {
+    flex: none; display: grid; place-items: center;
+    width: 52px; height: 52px; border-radius: 999px;
+    background: color-mix(in srgb, var(--ochre) 22%, transparent);
+    color: var(--bark);
+  }
+  .on-dark .feature__icon { background: color-mix(in srgb, var(--ochre) 28%, transparent); color: var(--ochre); }
+  .feature__title { font-size: var(--step-1); margin-bottom: 0.2rem; }
+  .feature__text { color: var(--text-muted); font-size: var(--step-0); }
+  .on-dark .feature__text { color: color-mix(in srgb, var(--cream) 80%, transparent); }
+  @media (min-width: 620px) { .features { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .features { grid-template-columns: repeat(3, 1fr); column-gap: var(--space-lg); } }
+</style>

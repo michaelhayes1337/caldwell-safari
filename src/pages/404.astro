@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+---
+<BaseLayout title="Page not found" description="The track went cold — this page could not be found.">
+  <Section variant="sand">
+    <div class="container--narrow text-center stack" style="padding-block: var(--space-xl);">
+      <span class="kicker">404</span>
+      <h1>The track went cold.</h1>
+      <p class="lede">We couldn't find that page — it may have moved, or never existed. Let's get you back on the trail.</p>
+      <div class="btn-row" style="justify-content:center; margin-top: var(--space-sm);">
+        <a href="/" class="btn">Back to home</a>
+        <a href="/gallery" class="btn btn--outline" style="color: var(--bark);">View the gallery</a>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

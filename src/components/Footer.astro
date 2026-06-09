@@ -1,0 +1,74 @@
+---
+import { NAV, SITE, CONTACT } from "../data/site";
+import SocialLinks from "./SocialLinks.astro";
+const year = 2026;
+---
+
+<footer class="site-footer on-dark">
+  <div class="container--wide footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="brand">
+        <span class="brand__name">Caldwell</span>
+        <span class="brand__sub">Safaris</span>
+      </a>
+      <p class="footer-tag">{SITE.tagline}</p>
+      <p class="footer-mantra">&ldquo;Hunt fair, and with respect.&rdquo;</p>
+      <SocialLinks />
+    </div>
+
+    <nav class="footer-col" aria-label="Footer">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        {NAV.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <h4>Get in touch</h4>
+      <ul>
+        <li><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
+        <li><a href={CONTACT.phoneHref}>{CONTACT.phoneDisplay}</a></li>
+        <li><a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp us</a></li>
+        <li class="footer-region">{CONTACT.region}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container--wide footer-base">
+    <p>&copy; {year} {SITE.name}. All rights reserved.</p>
+    <p>A family-run free-range outfitter since {SITE.founded}.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--bushveld-deep); color: var(--cream);
+    padding-block: var(--space-xl) var(--space-md);
+    margin-top: var(--space-2xl);
+  }
+  .site-footer h4 {
+    color: var(--ochre); font-family: var(--font-body); font-weight: 700;
+    font-size: var(--step--1); letter-spacing: var(--tracking-wide); text-transform: uppercase;
+    margin-bottom: var(--space-xs);
+  }
+  .footer-grid {
+    display: grid; gap: var(--space-lg);
+    grid-template-columns: 1fr;
+  }
+  .footer-brand .brand__name { color: var(--cream); font-size: 1.7rem; }
+  .footer-brand .brand__sub { color: var(--ochre); }
+  .footer-tag { margin-top: 0.4rem; color: color-mix(in srgb, var(--cream) 78%, transparent); }
+  .footer-mantra { font-family: var(--font-display); font-size: var(--step-1); margin: var(--space-sm) 0; color: var(--cream); }
+  .footer-col ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+  .footer-col a { color: color-mix(in srgb, var(--cream) 86%, transparent); transition: color var(--dur-fast) var(--ease); }
+  .footer-col a:hover { color: var(--ochre); }
+  .footer-region { color: color-mix(in srgb, var(--cream) 60%, transparent); font-size: var(--step--1); }
+  .footer-base {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-xs);
+    margin-top: var(--space-lg); padding-top: var(--space-md);
+    border-top: 1px solid var(--line-on-dark);
+    font-size: var(--step--1); color: color-mix(in srgb, var(--cream) 64%, transparent);
+  }
+  @media (min-width: 720px) { .footer-grid { grid-template-columns: 1.6fr 1fr 1.4fr; } }
+</style>
