@@ -18,7 +18,7 @@ every push to `main`.
 
 2. **Push this project** (run from the project root):
    ```bash
-   git remote add origin https://github.com/<your-account>/caldwell-safari.git
+   git remote add origin https://github.com/michaelhayes1337/caldwell-safari.git
    git push -u origin main
    ```
    (The branch is already named `main`.)
@@ -43,12 +43,12 @@ In the AWS account where `kurocode.com` is registered:
 2. Create the subdomain record:
    - **Record name:** `caldwellsafaris`
    - **Record type:** `CNAME`
-   - **Value:** `<your-account>.github.io`  ← your GitHub **username/org**, not the repo
+   - **Value:** `michaelhayes1337.github.io`  ← your GitHub **username/org**, not the repo
      (e.g. `kurocode.github.io`). Include the trailing dot if the console requires it.
    - **TTL:** `300`
 3. *(Recommended — prevents domain takeover)* **Verify the domain in GitHub:** GitHub →
    **Settings → Pages → “Verify” / Settings → Pages → Verified domains** gives you a TXT record
-   like `_github-pages-challenge-<account>.kurocode.com`. Add it in Route 53 as a **TXT** record,
+   like `_github-pages-challenge-michaelhayes1337.kurocode.com`. Add it in Route 53 as a **TXT** record,
    then click Verify.
 
 4. Wait a few minutes for DNS to propagate. GitHub detects the domain and provisions a
@@ -68,7 +68,7 @@ You should now reach the site at **https://caldwellsafaris.kurocode.com**.
 >       "Name": "caldwellsafaris.kurocode.com",
 >       "Type": "CNAME",
 >       "TTL": 300,
->       "ResourceRecords": [{ "Value": "<your-account>.github.io" }]
+>       "ResourceRecords": [{ "Value": "michaelhayes1337.github.io" }]
 >     }
 >   }]
 > }'
@@ -88,7 +88,7 @@ Content lives in `src/data/*` (pricing, gallery, contact) and `src/pages/*` (see
 - **Cache headers** are managed by GitHub Pages (not customisable). Fine for a static brochure
   site; hashed `/_astro/*` assets are still edge-cached.
 - **Want your own CloudFront later?** The output is plain static files, so you can put AWS
-  CloudFront in front (origin = `<account>.github.io`, origin path = `/`, ACM cert,
+  CloudFront in front (origin = `michaelhayes1337.github.io`, origin path = `/`, ACM cert,
   Route 53 alias) or move to S3 + CloudFront without changing the site. Not needed for launch.
 
 ---
