@@ -2,7 +2,7 @@ export const SITE = {
   name: "Caldwell Safaris",
   shortName: "Caldwell",
   tagline: "Free-range hunting · South Africa",
-  url: "https://caldwellsafaris.kurocode.com",
+  url: "https://caldwellsafaris.kurokode.com",
   description:
     "A family-run, free-range hunting safari in South Africa. Plains game, big game and bow hunting — guided with honesty and respect since 1993.",
   founded: 1993,

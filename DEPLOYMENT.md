@@ -1,7 +1,7 @@
 # Deployment — GitHub Pages + Route 53
 
 The site is a static Astro build hosted on **GitHub Pages**, served on a custom subdomain
-**`caldwellsafaris.kurocode.com`**. GitHub Pages delivers through a **global CDN (Fastly)**
+**`caldwellsafaris.kurokode.com`**. GitHub Pages delivers through a **global CDN (Fastly)**
 with free, automatic HTTPS, so international visitors are served from the edge — no separate
 CDN is required.
 
@@ -30,25 +30,25 @@ every push to `main`.
    **Actions** tab; the first successful run publishes the site.
 
 5. **Custom domain:** the build ships a `CNAME` file (`public/CNAME` →
-   `caldwellsafaris.kurocode.com`), so GitHub sets the custom domain automatically. You can
+   `caldwellsafaris.kurokode.com`), so GitHub sets the custom domain automatically. You can
    confirm it under **Settings → Pages → Custom domain**.
 
 ---
 
-## Part 2 — Route 53 DNS (your kurocode.com AWS account)
+## Part 2 — Route 53 DNS (your kurokode.com AWS account)
 
-In the AWS account where `kurocode.com` is registered:
+In the AWS account where `kurokode.com` is registered:
 
-1. **Route 53 → Hosted zones → `kurocode.com` → Create record.**
+1. **Route 53 → Hosted zones → `kurokode.com` → Create record.**
 2. Create the subdomain record:
    - **Record name:** `caldwellsafaris`
    - **Record type:** `CNAME`
    - **Value:** `michaelhayes1337.github.io`  ← your GitHub **username/org**, not the repo
-     (e.g. `kurocode.github.io`). Include the trailing dot if the console requires it.
+     (e.g. `kurokode.github.io`). Include the trailing dot if the console requires it.
    - **TTL:** `300`
 3. *(Recommended — prevents domain takeover)* **Verify the domain in GitHub:** GitHub →
    **Settings → Pages → “Verify” / Settings → Pages → Verified domains** gives you a TXT record
-   like `_github-pages-challenge-michaelhayes1337.kurocode.com`. Add it in Route 53 as a **TXT** record,
+   like `_github-pages-challenge-michaelhayes1337.kurokode.com`. Add it in Route 53 as a **TXT** record,
    then click Verify.
 
 4. Wait a few minutes for DNS to propagate. GitHub detects the domain and provisions a
@@ -56,16 +56,16 @@ In the AWS account where `kurocode.com` is registered:
 
 5. Once the cert is issued, tick **Settings → Pages → “Enforce HTTPS.”**
 
-You should now reach the site at **https://caldwellsafaris.kurocode.com**.
+You should now reach the site at **https://caldwellsafaris.kurokode.com**.
 
-> CLI alternative for step 2 (run in the kurocode.com account; replace `ZONEID` and the GitHub
+> CLI alternative for step 2 (run in the kurokode.com account; replace `ZONEID` and the GitHub
 > account):
 > ```bash
 > aws route53 change-resource-record-sets --hosted-zone-id ZONEID --change-batch '{
 >   "Changes": [{
 >     "Action": "UPSERT",
 >     "ResourceRecordSet": {
->       "Name": "caldwellsafaris.kurocode.com",
+>       "Name": "caldwellsafaris.kurokode.com",
 >       "Type": "CNAME",
 >       "TTL": 300,
 >       "ResourceRecords": [{ "Value": "michaelhayes1337.github.io" }]

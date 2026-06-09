@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://caldwellsafaris.kurocode.com',
+  site: 'https://caldwellsafaris.kurokode.com',
   output: 'static',
   trailingSlash: 'ignore',
   integrations: [sitemap()],

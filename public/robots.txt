@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://caldwellsafaris.kurocode.com/sitemap-index.xml
+Sitemap: https://caldwellsafaris.kurokode.com/sitemap-index.xml

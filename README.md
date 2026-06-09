@@ -3,7 +3,7 @@
 A fast, static, premium website for **Caldwell Safaris** — a family-run, free-range
 hunting outfitter in South Africa. Built with [Astro](https://astro.build/), designed in a
 warm "Bushveld Warmth" theme, and deployed on **GitHub Pages** (global CDN via Fastly) at
-`caldwellsafaris.kurocode.com`.
+`caldwellsafaris.kurokode.com`.
 
 ## Tech
 
