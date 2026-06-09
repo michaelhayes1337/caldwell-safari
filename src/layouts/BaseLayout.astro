@@ -21,11 +21,14 @@ const { title, description, image, overHero = false } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <SeoHead title={title} description={description} image={image} />
     <ClientRouter />
     <script is:inline>
+      // Mark JS available (gates scroll-reveal so content is never stuck hidden).
+      document.documentElement.classList.remove("no-js");
+      document.documentElement.classList.add("js");
       // Apply saved currency before paint to avoid a flash on the prices page.
       try {
         var c = localStorage.getItem("cs-currency");

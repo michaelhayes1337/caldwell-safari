@@ -125,10 +125,10 @@ const tabsData = await Promise.all(
     background: color-mix(in srgb, var(--cream) 14%, transparent); color: var(--cream); backdrop-filter: blur(4px);
     transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
   .lightbox__btn:hover { background: var(--ochre); color: var(--ink); }
-  .lightbox__close { top: -6px; right: -6px; }
-  .lightbox__prev { left: -6px; }
-  .lightbox__next { right: -6px; }
-  @media (min-width: 720px) { .lightbox__prev { left: -64px; } .lightbox__next { right: -64px; } .lightbox__close { top: -56px; right: 0; } }
+  .lightbox__close { position: fixed; top: clamp(0.7rem, 2vw, 1.25rem); right: clamp(0.7rem, 2vw, 1.25rem); }
+  .lightbox__prev { left: 2px; }
+  .lightbox__next { right: 2px; }
+  @media (min-width: 760px) { .lightbox__prev { left: -64px; } .lightbox__next { right: -64px; } }
   @media (prefers-reduced-motion: no-preference) { .lightbox:not([hidden]) .lightbox__figure img { animation: lbpop var(--dur) var(--ease-out); } }
   @keyframes lbpop { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: none; } }
 </style>

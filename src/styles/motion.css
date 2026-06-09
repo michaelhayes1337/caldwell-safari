@@ -3,17 +3,19 @@
    All motion gated behind prefers-reduced-motion: no-preference
    ============================================================ */
 
-/* Default (reduced motion): everything visible, no transforms */
+/* Default: everything visible (no-JS / reduced-motion fallback so content is
+   NEVER permanently hidden if scripts fail). Reveal is a progressive enhancement
+   gated behind html.js + motion preference. */
 [data-reveal] { opacity: 1; }
 
 @media (prefers-reduced-motion: no-preference) {
-  [data-reveal] {
+  html.js [data-reveal] {
     opacity: 0;
     transform: translateY(24px);
     transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
     transition-delay: var(--reveal-delay, 0ms);
   }
-  [data-reveal].is-visible { opacity: 1; transform: none; }
+  html.js [data-reveal].is-visible { opacity: 1; transform: none; }
 
   /* Hero load: staggered fade-up */
   .hero__kicker, .hero__title, .hero__sub, .hero__cta {

@@ -20,7 +20,7 @@ const icons: Record<string, string> = {
         </svg>
       </span>
       <div>
-        <h4 class="feature__title">{f.title}</h4>
+        <h3 class="feature__title">{f.title}</h3>
         <p class="feature__text">{f.text}</p>
       </div>
     </li>
@@ -40,10 +40,11 @@ const icons: Record<string, string> = {
     background: color-mix(in srgb, var(--ochre) 22%, transparent);
     color: var(--bark);
   }
-  .on-dark .feature__icon { background: color-mix(in srgb, var(--ochre) 28%, transparent); color: var(--ochre); }
-  .feature__title { font-size: var(--step-1); margin-bottom: 0.2rem; }
+  :global(.on-dark) .feature__icon { background: color-mix(in srgb, var(--ochre) 30%, transparent); color: var(--ochre); }
+  .feature__title { font-size: var(--step-1); margin-bottom: 0.2rem; color: var(--ink); }
+  :global(.on-dark) .feature__title { color: var(--cream); }
   .feature__text { color: var(--text-muted); font-size: var(--step-0); }
-  .on-dark .feature__text { color: color-mix(in srgb, var(--cream) 80%, transparent); }
+  :global(.on-dark) .feature__text { color: color-mix(in srgb, var(--cream) 82%, transparent); }
   @media (min-width: 620px) { .features { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1000px) { .features { grid-template-columns: repeat(3, 1fr); column-gap: var(--space-lg); } }
 </style>
